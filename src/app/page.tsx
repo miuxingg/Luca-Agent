@@ -1,3 +1,14 @@
+import { AppSidebar } from '@/components/app-sidebar/app-sidebar';
+import { Sidebar, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+
 export default function Home() {
-  return <div>hello</div>;
+  return (
+    <SidebarProvider>
+      <AppSidebar />
+      <main>
+        <SidebarTrigger />
+        asdasd
+      </main>
+    </SidebarProvider>
+  );
 }
