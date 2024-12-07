@@ -15,128 +15,8 @@ import { RenameChatDialog } from '../rename-chat-dialog';
 import { GenerateNewPrivacyKey } from '../generate-new-privacy-key';
 import { Button } from '../ui/button';
 import { useBoolean } from '@/hooks/use-boolean';
-
-let selectKeys = [
-  'Finance Professional',
-  'Audit Assurance Specialist',
-  'Audit Planner',
-  'Auditor',
-  'Bank Credit Investigator',
-  'Bank Relationship Manager',
-  'Chief Financial Officer',
-  'Chief Investment Officer',
-  'Chief Risk Officer',
-  'Credit Analyst',
-  'Equity Analyst',
-  'Forensic Auditor',
-  'Fraud Investigator',
-  'Internal Auditor',
-  'Portfolio Manager',
-  'Regulator',
-  'Risk Analyst',
-];
-
-export type SessionItemType = {
-  id: string;
-  title: string;
-  time: string;
-};
-export type SessionList = {
-  date: string;
-  sessions: SessionItemType[];
-};
-const _sessionListMock: SessionList[] = [
-  {
-    date: 'Today',
-    sessions: [
-      {
-        id: '1',
-        title: 'New Session',
-        time: '2024-12-05 12:05:59',
-      },
-      {
-        id: '2',
-        title: 'New Session',
-        time: '2024-12-05 12:05:59',
-      },
-      {
-        id: '3',
-        title: 'New Session',
-        time: '2024-12-05 12:05:59',
-      },
-      {
-        id: '4',
-        title: 'New Session',
-        time: '2024-12-05 12:05:59',
-      },
-      {
-        id: '5',
-        title: 'New Session',
-        time: '2024-12-05 12:05:59',
-      },
-    ],
-  },
-  {
-    date: 'Yesterday',
-    sessions: [
-      {
-        id: 'Yesterday-1',
-        title: 'New Session',
-        time: '2024-12-05 12:05:59',
-      },
-      {
-        id: 'Yesterday-2',
-        title: 'New Session',
-        time: '2024-12-05 12:05:59',
-      },
-      {
-        id: 'Yesterday-3',
-        title: 'New Session',
-        time: '2024-12-05 12:05:59',
-      },
-      {
-        id: 'Yesterday-4',
-        title: 'New Session',
-        time: '2024-12-05 12:05:59',
-      },
-      {
-        id: 'Yesterday-5',
-        title: 'New Session',
-        time: '2024-12-05 12:05:59',
-      },
-    ],
-  },
-  {
-    date: 'Yesterday',
-    sessions: [
-      {
-        id: 'Yesterday-11',
-        title: 'New Session',
-        time: '2024-12-05 12:05:59',
-      },
-      {
-        id: 'Yesterday-21',
-        title: 'New Session',
-        time: '2024-12-05 12:05:59',
-      },
-      {
-        id: 'Yesterday-31',
-        title: 'New Session',
-        time: '2024-12-05 12:05:59',
-      },
-      {
-        id: 'Yesterday-41',
-        title: 'New Session',
-        time: '2024-12-05 12:05:59',
-      },
-      {
-        id: 'Yesterday-51',
-        title: 'New Session',
-        time: '2024-12-05 12:05:59',
-      },
-    ],
-  },
-];
+import { _sessionListMock, CATEGORIES } from '@/app/constants/luca-constants';
+import { SessionItemType, SessionList } from '@/app/models/ui-model';
 
 export function AppSidebar() {
   const privacyKeyDialog = useBoolean();
@@ -163,7 +43,7 @@ export function AppSidebar() {
             <div className="text-sm flex items-center justify-end mt-2">
               <button
                 id="back-button"
-                className="text-gray-400 pt-2 hover:text-gray-300 flex items-center"
+                className="text-gray-400 py-2 hover:text-gray-300 flex items-center"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -214,15 +94,20 @@ export function AppSidebar() {
           >
             New Privacy Key
           </Button>
-          <Select defaultValue={selectKeys?.[0]}>
+          <Select defaultValue={CATEGORIES?.[0].value}>
             <SelectTrigger className="w-full h-[48px] text-base text-white rounded-md hover:opacity-80 decline-btn bg-gray-700 !border-0">
               <SelectValue className="text-white bg-white" />
             </SelectTrigger>
-            <SelectContent className="border-0 bg-white text-black dark:border-gray-300">
-              {selectKeys.map((key) => {
+            <SelectContent className="border-0 bg-white text-black border-gray-300">
+              {CATEGORIES.map((obj) => {
                 return (
-                  <SelectItem key={key} value={key}>
-                    {key}
+                  <SelectItem
+                    key={obj.value}
+                    value={obj.value}
+                    title={obj.title}
+                    className="truncate"
+                  >
+                    {obj.name}
                   </SelectItem>
                 );
               })}

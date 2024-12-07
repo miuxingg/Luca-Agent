@@ -3,10 +3,7 @@ import { Copy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -48,7 +45,7 @@ export default function Privacy() {
                 type="password"
                 name="privacy_key"
                 placeholder="Enter your privacy key"
-                className="dark:bg-gray-700 dark:border-gray-600 text-white rounded-md px-4 py-2 flex-1"
+                className="bg-gray-700 border-gray-600 text-white rounded-md px-4 py-2 flex-1"
               />
               <button
                 type="submit"

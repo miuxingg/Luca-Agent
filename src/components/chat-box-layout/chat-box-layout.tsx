@@ -204,7 +204,7 @@ export const ChatBoxLayout = () => {
             <div className="md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] mx-auto py-4 px-4 lg:px-0">
               <div>
                 <Label className="sr-only">Your message</Label>
-                <div className="flex items-center px-2 py-3 rounded-lg bg-gray-50 dark:bg-gray-700 lg:mx-3">
+                <div className="flex items-center px-2 py-3 rounded-lg bg-gray-50 bg-gray-700 lg:mx-3">
                   <textarea
                     value={question}
                     onKeyDown={handleKeyDown}
