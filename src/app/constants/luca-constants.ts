@@ -1,4 +1,4 @@
-import { SessionList } from "../models/ui-model";
+import { ChatBoxProps, SessionList } from "../models/ui-model";
 
 export const CATEGORIES: {
   name: string;
@@ -201,3 +201,5 @@ export const _sessionListMock: SessionList[] = [
       ],
     },
   ];
+
+ 

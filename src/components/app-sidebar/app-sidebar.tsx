@@ -94,25 +94,30 @@ export function AppSidebar() {
           >
             New Privacy Key
           </Button>
-          <Select defaultValue={CATEGORIES?.[0].value}>
-            <SelectTrigger className="w-full h-[48px] text-base text-white rounded-md hover:opacity-80 decline-btn bg-gray-700 !border-0">
-              <SelectValue className="text-white bg-white" />
-            </SelectTrigger>
-            <SelectContent className="border-0 bg-white text-black border-gray-300">
-              {CATEGORIES.map((obj) => {
+          <select
+            id="select-role"
+            className="w-full p-3 bg-gray-700 text-white rounded-md appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary-color"
+          >
+            {CATEGORIES.map((persona) => {
+              if (persona.value === 'general') {
                 return (
-                  <SelectItem
-                    key={obj.value}
-                    value={obj.value}
-                    title={obj.title}
-                    className="truncate"
+                  <option
+                    defaultValue={'general'}
+                    key={persona.value}
+                    value={persona.value}
+                    title={persona.title}
                   >
-                    {obj.name}
-                  </SelectItem>
+                    {persona.name}
+                  </option>
                 );
-              })}
-            </SelectContent>
-          </Select>
+              }
+              return (
+                <option key={persona.value} value={persona.value} title={persona.title}>
+                  {persona.name}
+                </option>
+              );
+            })}
+          </select>
         </div>
       </Sidebar>
       <DeleteChatDialog
