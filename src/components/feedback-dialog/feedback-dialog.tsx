@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import { Button } from '../ui/button';
 import {
   Dialog,
@@ -50,7 +50,7 @@ export const FeedbackDialog: FC<FeedbackDialogProps> = ({ open, onCancel, onSubm
           id="feedback"
           rows={10}
           placeholder="Please share your feedback with us"
-          className="bg-white text-black"
+          className=" text-white bg-gray-700"
           onChange={(e) => {}}
         />
         {checkList.map((checkItem) => {

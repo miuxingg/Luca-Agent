@@ -35,7 +35,7 @@ export const RenameChatDialog: FC<RenameChatDialogProps> = ({
           <Input
             id="name"
             value={name}
-            className="bg-white text-black"
+            className="bg-gray-700 text-white"
             onChange={(e) => {
               setName(e.target.value);
             }}

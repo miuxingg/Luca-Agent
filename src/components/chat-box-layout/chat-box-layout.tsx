@@ -6,6 +6,8 @@ import { FeedbackDialog } from '../feedback-dialog';
 
 import { cn } from '@/lib/utils';
 import { ChatBoxProps } from '@/app/models/ui-model';
+import { DetailBox } from './detail-box';
+import { X } from 'lucide-react';
 
 const MOCK: ChatBoxProps[] = [
   {
@@ -32,7 +34,11 @@ clearer understanding of a company's financial integrity.`,
     isResponse: true,
     avatarUri: '/luca.svg',
     avatarFallback: 'L',
-    content: <div style={{ width: '100%', height: 'auto' }}>Click to open code</div>,
+    content: (
+      <div style={{ width: '100%', height: 'auto' }}>
+        <p>Understood here is an example of code: </p>
+      </div>
+    ),
   },
   {
     id: '4',
@@ -142,7 +148,7 @@ export const ChatBoxLayout = () => {
             </div>
           </nav>
           <div className={cn(chatBoxExpanded && 'flex')}>
-            <div className="justify-center">
+            <div className="justify-center" style={chatBoxExpanded ? { flex: 1 } : {}}>
               <div className="h-[80vh] text-sm overflow-y-auto scroll-bottom custom-scrollbar">
                 <div className="mx-auto lg:gap-6 md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] ">
                   {chatBoxList.map((chat, i) => {
@@ -167,10 +173,24 @@ export const ChatBoxLayout = () => {
               </div>
             </div>
             {chatBoxExpanded && (
-              <div className="justify-center">
-                <div className="h-[81vh] text-sm overflow-y-auto scroll-bottom custom-scrollbar">
+              <div className="justify-center slide-in " style={chatBoxExpanded ? { flex: 1 } : {}}>
+                <div className="h-[32px] bg-[#282A36] rounded-t-lg">
+                  <div
+                    className="absolute right-2 top-2 rounded-sm opacity-70 
+                  ring-offset-background transition-opacity hover:opacity-100 
+                  focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 
+                  disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+                  >
+                    <X
+                      className="h-4 w-4 text-white cursor-pointer"
+                      onClick={() => setChatBoxExpanded(null)}
+                    />
+                    <span className="sr-only">Close</span>
+                  </div>
+                </div>
+                <div className="detail-box-wapper-height text-sm overflow-y-auto scroll-bottom custom-scrollbar  ">
                   <div className="mx-auto lg:gap-6 md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] ">
-                    <ChatBox
+                    <DetailBox
                       {...chatBoxExpanded}
                       isExpanded
                       onLikeClick={() => {
@@ -179,18 +199,16 @@ export const ChatBoxLayout = () => {
                       onDisLikeClick={() => {
                         setFeedbackData(chatBoxExpanded);
                       }}
-                      onExpandClick={() => {
-                        setChatBoxExpanded(null);
-                      }}
                     />
                   </div>
-                  <div ref={bottomRef} />
                 </div>
+                <div className="h-[32px] bg-[#282A36] rounded-b-lg"></div>
+
               </div>
             )}
           </div>
 
-          <div className="w-full my-4 h-16">
+          <div className={cn(chatBoxExpanded ? 'w-[50%] my-4 h-16' : 'w-full my-4 h-16')}>
             <div className="md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] mx-auto lg:px-0">
               <div>
                 <Label className="sr-only">Your message</Label>

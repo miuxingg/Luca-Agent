@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 import { Skeleton } from '../ui/skeleton';
 import { ChatBoxProps } from '@/app/models/ui-model';
-
+import { CodeButton } from '../code-button';
 
 export const ChatBox: FC<ChatBoxProps> = ({
   isResponse,
@@ -22,28 +22,27 @@ export const ChatBox: FC<ChatBoxProps> = ({
   return (
     <div>
       <div
-        className={cn('relative flex flex-col p-4 rounded-lg m-4', isResponse && 'bg-[#1C1D24]')}
+        className={cn('relative flex flex-col p-4 rounded-lg m-4', isResponse ? 'bg-[#1C1D24]' : 'bg-slate-800')}
       >
-        {typeof content === 'string' ? null : (
-          <div className="absolute z-50 right-4 top-4 cursor-pointer" onClick={onExpandClick}>
-            {isExpanded ? <Minimize /> : <Expand />}
-          </div>
-        )}
-
         <div className="flex gap-3">
           <div className="relative flex-shrink-0">
             <Avatar className="w-6 h-6">
-            <AvatarImage src={avatarUri} />
-            <AvatarFallback>{avatarFallback}</AvatarFallback>
+              <AvatarImage src={avatarUri} />
+              <AvatarFallback>{avatarFallback}</AvatarFallback>
             </Avatar>
           </div>
-
           <div className="flex flex-col text-white flex-1 overflow-x-auto">
             {isLoading ? (
               <Skeleton className="bg-transparent">sending request...</Skeleton>
             ) : (
               <>
                 {typeof content === 'string' ? <p>{content}</p> : content}
+
+                {typeof content === 'string' ? null : (
+                  <div className="text-black" onClick={onExpandClick}>
+                    <CodeButton expandFunc={onExpandClick} />
+                  </div>
+                )}
 
                 {isResponse && (
                   <div className="flex justify-end my-2 mt-4">

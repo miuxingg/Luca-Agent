@@ -2341,3 +2341,27 @@ h4 {
     --tw-ring-color: rgb(37 99 235 / var(--tw-ring-opacity));
   }
 } */
+
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.slide-in {
+  animation: slideIn 0.5s ease-out forwards;
+}
+
+.detail-box-height {
+  height: calc(100% - 32px)
+}
+
+.detail-box-wapper-height {
+  height: calc(81vh - 72px);
+}

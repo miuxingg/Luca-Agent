@@ -3,13 +3,29 @@ import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/
 import { useRouter } from 'next/navigation';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { CATEGORIES } from '../constants/luca-constants';
-
+import { useState } from 'react';
 const maskedPrivacyKey = '9c9923aab58d9999';
-
+const hiddenPrivacyKey = '9c9923aab58d9999'.slice(0, -4) + '*'.repeat(4);
 const randomPrivacyKey = '3dd892d4' + new Date().getTime().toString();
 
 export default function Privacy() {
   const { push } = useRouter();
+
+  const [copySuccess, setCopySuccess] = useState('');
+
+  const handleCopy = () => {
+    const textToCopy = maskedPrivacyKey;
+
+    navigator.clipboard
+      .writeText(textToCopy)
+      .then(() => {
+        setCopySuccess('Text copied to clipboard!');
+      })
+      .catch((err) => {
+        console.error('Failed to copy text: ', err);
+        setCopySuccess('Failed to copy text.');
+      });
+  };
 
   return (
     <div className="h-full w-full text-white flex justify-center items-center">
@@ -87,11 +103,12 @@ export default function Privacy() {
                       <div className="flex items-center bg-gray-700 rounded-md p-2">
                         <div className="flex items-center shadow-sm flex-1">
                           <span id="privacy-key" className="text-white p-3 rounded-md">
-                            ${maskedPrivacyKey}
+                            {hiddenPrivacyKey}
                           </span>
                         </div>
                         <div className="flex items-center">
                           <button
+                            onClick={handleCopy}
                             id="copy-button"
                             className="ml-2 p-2 bg-gray-600 rounded-md hover:bg-gray-500"
                           >
@@ -145,13 +162,22 @@ export default function Privacy() {
                             {CATEGORIES.map((persona) => {
                               if (persona.value === 'general') {
                                 return (
-                                  <option defaultValue={'general'} key={persona.value} value={persona.value} title={persona.title}>
+                                  <option
+                                    defaultValue={'general'}
+                                    key={persona.value}
+                                    value={persona.value}
+                                    title={persona.title}
+                                  >
                                     {persona.name}
                                   </option>
                                 );
                               }
                               return (
-                                <option key={persona.value} value={persona.value} title={persona.title}>
+                                <option
+                                  key={persona.value}
+                                  value={persona.value}
+                                  title={persona.title}
+                                >
                                   {persona.name}
                                 </option>
                               );
