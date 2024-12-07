@@ -9,15 +9,18 @@ import { SessionItemType, SessionList } from '../app-sidebar';
 type SessionItemProp = {
   title: string;
   time: string;
+  isSelected?: boolean;
   onMoreClick?: (type: MoreActionType) => void;
+  onClick?: () => void;
 };
-const SessionItem: FC<SessionItemProp> = ({ title, time, onMoreClick }) => {
+const SessionItem: FC<SessionItemProp> = ({ title, time, isSelected, onMoreClick, onClick }) => {
   const [hover, setHover] = useState(false);
 
   return (
     <>
       <SidebarMenuItem
-        className={'hover: bg-transparent px-[8px]'}
+        className={'hover: bg-transparent'}
+        onClick={onClick}
         onMouseEnter={() => {
           setHover(true);
         }}
@@ -25,7 +28,12 @@ const SessionItem: FC<SessionItemProp> = ({ title, time, onMoreClick }) => {
           setHover(false);
         }}
       >
-        <div className="flex justify-between items-center cursor-pointer hover:bg-[#2A2A2B] bg-[#2A2A2B] p-2 text-sm text-white rounded shadow-lg duration-200">
+        <div
+          className={cn(
+            'flex justify-between items-center cursor-pointer hover:bg-[#2A2A2B] bg-transparent p-2 text-sm text-white rounded duration-200',
+            isSelected && 'bg-[#2A2A2B]'
+          )}
+        >
           <div className={'flex flex-col '}>
             <p>{title}</p>
             <p className="text-xs text-gray-400">{time}</p>
@@ -43,25 +51,36 @@ const SessionItem: FC<SessionItemProp> = ({ title, time, onMoreClick }) => {
 
 type SidebarSessionListProps = {
   sessionItem: SessionList;
+  idSelected: string;
   onMoreClick?: (type: MoreActionType, data: SessionItemType) => void;
+  onClick?: (id: string) => void;
 };
-export const SidebarSessionList: FC<SidebarSessionListProps> = ({ onMoreClick, sessionItem }) => {
+export const SidebarSessionList: FC<SidebarSessionListProps> = ({
+  onMoreClick,
+  onClick,
+  sessionItem,
+  idSelected,
+}) => {
   return (
     <div>
       <SidebarGroupLabel
-        className={cn('flex justify-items-center gap-1 text-white	text-sm font-semibold')}
+        className={cn(
+          'flex justify-items-center text-white	text-sm font-semibold p-2 pl-0 px-4 mt-2'
+        )}
       >
         {sessionItem.date}
       </SidebarGroupLabel>
-      <SidebarMenu>
+      <SidebarMenu className="px-4 gap-0 mt-1">
         {sessionItem.sessions.map((item) => (
           <SessionItem
             key={item.id}
             title={item.title}
             time={item.time}
+            isSelected={idSelected === item.id}
             onMoreClick={(type: MoreActionType) => {
               onMoreClick?.(type, item);
             }}
+            onClick={() => onClick?.(item.id)}
           />
         ))}
       </SidebarMenu>

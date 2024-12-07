@@ -1,5 +1,4 @@
 'use client';
-import { ArrowLeft } from 'lucide-react';
 
 import {
   Sidebar,
@@ -111,27 +110,27 @@ const _sessionListMock: SessionList[] = [
     date: 'Yesterday',
     sessions: [
       {
-        id: 'Yesterday-1',
+        id: 'Yesterday-11',
         title: 'New Session',
         time: '2024-12-05 12:05:59',
       },
       {
-        id: 'Yesterday-2',
+        id: 'Yesterday-21',
         title: 'New Session',
         time: '2024-12-05 12:05:59',
       },
       {
-        id: 'Yesterday-3',
+        id: 'Yesterday-31',
         title: 'New Session',
         time: '2024-12-05 12:05:59',
       },
       {
-        id: 'Yesterday-4',
+        id: 'Yesterday-41',
         title: 'New Session',
         time: '2024-12-05 12:05:59',
       },
       {
-        id: 'Yesterday-5',
+        id: 'Yesterday-51',
         title: 'New Session',
         time: '2024-12-05 12:05:59',
       },
@@ -141,6 +140,7 @@ const _sessionListMock: SessionList[] = [
 
 export function AppSidebar() {
   const privacyKeyDialog = useBoolean();
+  const [selected, setSelected] = useState('1');
   const [moreActionDetail, setMoreActionDetail] = useState<{
     type: MoreActionType;
     data: SessionItemType;
@@ -163,7 +163,7 @@ export function AppSidebar() {
             <div className="text-sm flex items-center justify-end mt-2">
               <button
                 id="back-button"
-                className="text-gray-400 py-2 hover:text-gray-300 flex items-center"
+                className="text-gray-400 pt-2 hover:text-gray-300 flex items-center"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -172,9 +172,9 @@ export function AppSidebar() {
                   fill="currentColor"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   ></path>
                 </svg>
                 <span className={cn('underline')}>Dashboard</span>
@@ -182,7 +182,7 @@ export function AppSidebar() {
             </div>
           </div>
         </div>
-        <SidebarContent className={cn('pl-[4px]', 'h-[100%]')}>
+        <SidebarContent className={cn('pl-0', 'h-[100%]', 'mt-[2px]')}>
           <SidebarGroup className={cn('h-[100%]')}>
             <SidebarGroupContent className={cn('flex', 'flex-col', 'justify-between', 'h-[100%]')}>
               <div className={cn('overflow-auto', 'h-[73vh]')}>
@@ -192,6 +192,10 @@ export function AppSidebar() {
                       key={i}
                       sessionItem={sessionItem}
                       onMoreClick={handleMoreClick}
+                      onClick={(id: string) => {
+                        setSelected(id);
+                      }}
+                      idSelected={selected}
                     />
                   );
                 })}
@@ -199,33 +203,31 @@ export function AppSidebar() {
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
-        <div className={cn('p-4', 'flex', 'flex-col', 'justify-between')}>
+        <div className={cn('h-[194px]', 'p-4', 'flex', 'flex-col', 'justify-between', 'gap-3')}>
           <Button className="h-[40px] w-full text-base text-white px-4 py-2 rounded-md bg-[#F68D24] hover:opacity-80 hover:bg-[#F68D24] relative">
             Start new session
           </Button>
 
           <Button
-            className="w-full px-4 py-2 rounded-md hover:opacity-80 decline-btn  h-[42px]"
+            className="w-full text-base	 px-4 py-2 rounded-md hover:opacity-80 decline-btn h-[42px]"
             onClick={privacyKeyDialog.onTrue}
           >
             New Privacy Key
           </Button>
-          <div>
-            <Select>
-              <SelectTrigger className="w-full text-base text-white px-4 py-6 rounded-md hover:opacity-80 decline-btn bg-gray-700 border-transparent">
-                <SelectValue placeholder="Light" />
-              </SelectTrigger>
-              <SelectContent>
-                {selectKeys.map((key) => {
-                  return (
-                    <SelectItem key={key} value="key">
-                      {key}
-                    </SelectItem>
-                  );
-                })}
-              </SelectContent>
-            </Select>
-          </div>
+          <Select defaultValue={selectKeys?.[0]}>
+            <SelectTrigger className="w-full h-[48px] text-base text-white rounded-md hover:opacity-80 decline-btn bg-gray-700 !border-0">
+              <SelectValue className="text-white bg-white" />
+            </SelectTrigger>
+            <SelectContent className="border-0 bg-white text-black dark:border-gray-300">
+              {selectKeys.map((key) => {
+                return (
+                  <SelectItem key={key} value={key}>
+                    {key}
+                  </SelectItem>
+                );
+              })}
+            </SelectContent>
+          </Select>
         </div>
       </Sidebar>
       <DeleteChatDialog

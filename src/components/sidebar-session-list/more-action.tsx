@@ -41,18 +41,18 @@ export function MoreAction({ onClick }: MoreActionProps) {
         <MenubarTrigger className="p-0 cursor-pointer">
           <EllipsisVertical size={16} strokeWidth={1.5} />
         </MenubarTrigger>
-        <MenubarContent className="bg-[#1C1D24] text-white border-0 shadow-lg border-gray-600 p-3">
+        <MenubarContent className="!w-[170px] bg-[#1C1D24] text-white shadow-lg border-gray-600 rounded-2xl	p-2">
           {items.map((item) => {
             return (
               <MenubarItem
                 key={item.type}
-                className="flex gap-3 py-3 hover:bg-gray-800"
+                className="flex gap-3 py-3 hover:bg-gray-800 cursor-pointer"
                 onClick={() => {
                   onClick?.(item.type);
                 }}
               >
                 {item.icon}
-                <p>{item.label}</p>
+                {item.label}
               </MenubarItem>
             );
           })}

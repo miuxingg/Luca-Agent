@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 
 const chatBoxListMock: ChatBoxProps[] = [
   {
-    id: new Date().toString(),
+    id: '1',
     isResponse: true,
     avatarUri: 'https://github.com/shadcn.png',
     avatarFallback: 'VN',
@@ -19,18 +19,18 @@ const chatBoxListMock: ChatBoxProps[] = [
 Transparently.AI, and I specialize in analyzing accounting manipulation risk for
 publicly listed companies. I can help you uncover potential red flags and gain a
 clearer understanding of a company's financial integrity.`,
-    reaction: 'like',
+    reaction: undefined,
   },
   {
-    id: new Date().toString(),
+    id: '2',
     isResponse: false,
     avatarUri: 'https://github.com/shadcn.png',
     avatarFallback: 'VN',
     content: `Hello world`,
-    reaction: 'like',
+    reaction: undefined,
   },
   {
-    id: new Date().toString(),
+    id: '3',
     isResponse: true,
     avatarUri: 'https://github.com/shadcn.png',
     avatarFallback: 'VN',
@@ -46,7 +46,7 @@ clearer understanding of a company's financial integrity.`,
     ),
   },
   {
-    id: new Date().toString(),
+    id: '4',
     isResponse: false,
     avatarUri: 'https://github.com/shadcn.png',
     avatarFallback: 'VN',
@@ -54,26 +54,31 @@ clearer understanding of a company's financial integrity.`,
 Transparently.AI, and I specialize in analyzing accounting manipulation risk for
 publicly listed companies. I can help you uncover potential red flags and gain a
 clearer understanding of a company's financial integrity.`,
-    reaction: 'like',
+    reaction: undefined,
   },
   {
-    id: new Date().toString(),
+    id: '5',
     isResponse: true,
     avatarUri: 'https://github.com/shadcn.png',
     avatarFallback: 'VN',
     content: `Oke lala`,
-    reaction: 'dislike',
+    reaction: undefined,
   },
 ];
 export const ChatBoxLayout = () => {
+  const isChangeReaction = useRef<boolean>(false);
   const bottomRef = useRef<HTMLDivElement | null>(null);
-  const feedbackDialog = useBoolean();
   const [chatBoxList, setChatBoxList] = useState(chatBoxListMock);
   const [chatBoxExpanded, setChatBoxExpanded] = useState<ChatBoxProps | null>(null);
-  const [question, setQuestion] = useState('');
+  const [feedbackData, setFeedbackData] = useState<ChatBoxProps | null>(null);
 
+  const [question, setQuestion] = useState('');
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (isChangeReaction.current) {
+      isChangeReaction.current = false;
+    } else {
+      bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
   }, [chatBoxList]);
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === 'Enter' && !event.shiftKey) {
@@ -82,9 +87,41 @@ export const ChatBoxLayout = () => {
     }
   };
 
+  const handleLikeClick = (id: string) => {
+    isChangeReaction.current = true;
+    setChatBoxList((p) => {
+      return p.map((c) => {
+        return c.id === id ? { ...c, reaction: 'like' } : c;
+      });
+    });
+    if (chatBoxExpanded && chatBoxExpanded.id === id) {
+      setChatBoxExpanded((p) => {
+        if (!p) return p;
+        return { ...p, reaction: 'like' };
+      });
+    }
+  };
+
+  const handleDisLikeClick = () => {
+    isChangeReaction.current = true;
+    if (feedbackData) {
+      setChatBoxList((p) => {
+        return p.map((c) => {
+          return c.id === feedbackData.id ? { ...c, reaction: 'dislike' } : c;
+        });
+      });
+      if (chatBoxExpanded && chatBoxExpanded.id === feedbackData.id) {
+        setChatBoxExpanded((p) => {
+          if (!p) return p;
+          return { ...p, reaction: 'dislike' };
+        });
+      }
+      setFeedbackData(null);
+    }
+  };
+
   const handleSubmit = () => {
     if (question) {
-      console.log(question);
       setChatBoxList((p) => [
         ...p,
         {
@@ -111,7 +148,7 @@ export const ChatBoxLayout = () => {
         <div className="flex flex-1 flex-col ">
           <nav className="sticky top-0 z-10 bg-black w-full p-3 h-16 flex justify-center items-center">
             <div>
-              <Label className="text-white text-lg">New session</Label>
+              <Label className="text-white text-base">New session</Label>
             </div>
           </nav>
           <div className={cn(chatBoxExpanded && 'flex')}>
@@ -124,10 +161,10 @@ export const ChatBoxLayout = () => {
                         key={i}
                         {...chat}
                         onLikeClick={() => {
-                          console.log('like');
+                          handleLikeClick(chat.id);
                         }}
                         onDisLikeClick={() => {
-                          feedbackDialog.onTrue();
+                          setFeedbackData(chat);
                         }}
                         onExpandClick={() => {
                           setChatBoxExpanded(chat);
@@ -147,10 +184,10 @@ export const ChatBoxLayout = () => {
                       {...chatBoxExpanded}
                       isExpanded
                       onLikeClick={() => {
-                        console.log('like');
+                        handleLikeClick(chatBoxExpanded.id);
                       }}
                       onDisLikeClick={() => {
-                        feedbackDialog.onTrue();
+                        setFeedbackData(chatBoxExpanded);
                       }}
                       onExpandClick={() => {
                         setChatBoxExpanded(null);
@@ -185,9 +222,11 @@ export const ChatBoxLayout = () => {
         </div>
       </div>
       <FeedbackDialog
-        open={feedbackDialog.value}
-        onCancel={feedbackDialog.onFalse}
-        onSubmit={feedbackDialog.onFalse}
+        open={!!feedbackData}
+        onCancel={() => {
+          setFeedbackData(null);
+        }}
+        onSubmit={handleDisLikeClick}
       />
     </>
   );
