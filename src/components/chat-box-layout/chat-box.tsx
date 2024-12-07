@@ -4,20 +4,9 @@ import { FC } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 import { Skeleton } from '../ui/skeleton';
+import { ChatBoxProps } from '@/app/models/ui-model';
 
-export type ChatBoxProps = {
-  id: string;
-  isResponse?: boolean;
-  isLoading?: boolean;
-  isExpanded?: boolean;
-  reaction?: 'like' | 'dislike';
-  avatarUri?: string;
-  avatarFallback?: string;
-  content?: string | React.ReactNode;
-  onLikeClick?: () => void;
-  onDisLikeClick?: () => void;
-  onExpandClick?: () => void;
-};
+
 export const ChatBox: FC<ChatBoxProps> = ({
   isResponse,
   isLoading,
@@ -44,8 +33,8 @@ export const ChatBox: FC<ChatBoxProps> = ({
         <div className="flex gap-3">
           <div className="relative flex-shrink-0">
             <Avatar className="w-6 h-6">
-              <AvatarImage src={avatarUri} />
-              <AvatarFallback>{avatarFallback}</AvatarFallback>
+            <AvatarImage src={avatarUri} />
+            <AvatarFallback>{avatarFallback}</AvatarFallback>
             </Avatar>
           </div>
 

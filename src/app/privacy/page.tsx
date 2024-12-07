@@ -1,6 +1,8 @@
 'use client';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useRouter } from 'next/navigation';
+import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
+import { CATEGORIES } from '../constants/luca-constants';
 
 const maskedPrivacyKey = '9c9923aab58d9999';
 
@@ -41,7 +43,7 @@ export default function Privacy() {
                 type="password"
                 name="privacy_key"
                 placeholder="Enter your privacy key"
-                className="dark:bg-gray-700 dark:border-gray-600 text-white rounded-md px-4 py-2 flex-1"
+                className="bg-gray-700 border-gray-600 text-white rounded-md px-4 py-2 flex-1"
               />
               <button
                 type="submit"
@@ -60,6 +62,9 @@ export default function Privacy() {
                   Go with random privacy key
                 </button>
               </DialogTrigger>
+              <VisuallyHidden.Root>
+                <DialogTitle>Menu</DialogTitle>
+              </VisuallyHidden.Root>
               <DialogContent
                 className=" sm:w-[35rem] modal border-transparent"
                 style={{ top: '40%', padding: '0rem' }}
@@ -98,9 +103,9 @@ export default function Privacy() {
                               stroke="currentColor"
                             >
                               <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
                                 d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
                               />
                             </svg>
@@ -126,9 +131,9 @@ export default function Privacy() {
                               xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
                                 d="M19 9l-7 7-7-7"
                               ></path>
                             </svg>
@@ -136,7 +141,22 @@ export default function Privacy() {
                           <select
                             id="select-role"
                             className="w-full p-3 bg-gray-700 text-white rounded-md appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary-color"
-                          ></select>
+                          >
+                            {CATEGORIES.map((persona) => {
+                              if (persona.value === 'general') {
+                                return (
+                                  <option defaultValue={'general'} key={persona.value} value={persona.value} title={persona.title}>
+                                    {persona.name}
+                                  </option>
+                                );
+                              }
+                              return (
+                                <option key={persona.value} value={persona.value} title={persona.title}>
+                                  {persona.name}
+                                </option>
+                              );
+                            })}
+                          </select>
                         </div>
                       </div>
                     </div>
