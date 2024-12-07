@@ -1,14 +1,7 @@
-import { AppSidebar } from '@/components/app-sidebar/app-sidebar';
-import { ChatBoxLayout } from '@/components/chat-box-layout';
-import { SidebarProvider } from '@/components/ui/sidebar';
+import { redirect } from 'next/navigation';
 
 export default function Home() {
-  return (
-    <SidebarProvider>
-      <AppSidebar />
-      <main className="flex flex-1">
-        <ChatBoxLayout />
-      </main>
-    </SidebarProvider>
-  );
+  redirect('/privacy');
+
+  return null;
 }
