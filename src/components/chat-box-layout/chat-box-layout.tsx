@@ -77,7 +77,9 @@ export const ChatBoxLayout = () => {
     if (isChangeReaction.current) {
       isChangeReaction.current = false;
     } else {
-      bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => {
+        bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 500);
     }
   }, [chatBoxList]);
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -148,7 +150,7 @@ export const ChatBoxLayout = () => {
         <div className="flex flex-1 flex-col ">
           <nav className="sticky top-0 z-10 bg-black w-full p-3 h-16 flex justify-center items-center">
             <div>
-              <Label className="text-white text-base">New session</Label>
+              <Label className="text-white text-base">New session 111</Label>
             </div>
           </nav>
           <div className={cn(chatBoxExpanded && 'flex')}>

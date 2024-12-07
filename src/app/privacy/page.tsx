@@ -1,23 +1,16 @@
-import { Copy } from 'lucide-react';
-
-import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
+'use client';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { useRouter } from 'next/navigation';
 
 const maskedPrivacyKey = '9c9923aab58d9999';
 
+const randomPrivacyKey = '3dd892d4' + new Date().getTime().toString();
+
 export default function Privacy() {
+  const { push } = useRouter();
+
   return (
-    <div className="h-inherit w-full text-white flex justify-center items-center">
+    <div className="h-full w-full text-white flex justify-center items-center">
       <div className="flex justify-center items-center h-full w-[35rem] mx-auto">
         <div className="w-full bg-[#13151B] p-5 rounded-lg">
           <div className="flex flex-col justify-center items-center">
@@ -158,6 +151,9 @@ export default function Privacy() {
                       <button
                         type="button"
                         className="ml-2 px-4 py-2 bg-primary-color rounded-md hover:opacity-80"
+                        onClick={() => {
+                          push(`luca/chat/${randomPrivacyKey}`);
+                        }}
                       >
                         Accept
                       </button>
