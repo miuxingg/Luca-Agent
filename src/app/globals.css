@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 body {
-  font-family: Arial, sans-serif, ui-sans-serif, system-ui, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: Arial, sans-serif, ui-sans-serif, system-ui, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
 @layer base {
@@ -85,4 +86,16 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+html {
+  height: calc(100vh-20px);
+}
+/* Custom scrollbar class */
+.custom-scrollbar {
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For IE and Edge */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Edge */
 }
