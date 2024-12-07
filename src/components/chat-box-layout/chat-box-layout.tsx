@@ -77,9 +77,7 @@ export const ChatBoxLayout = () => {
     if (isChangeReaction.current) {
       isChangeReaction.current = false;
     } else {
-      setTimeout(() => {
-        bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-      }, 500);
+      bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   }, [chatBoxList]);
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -155,7 +153,7 @@ export const ChatBoxLayout = () => {
           </nav>
           <div className={cn(chatBoxExpanded && 'flex')}>
             <div className="justify-center">
-              <div className="h-[81vh] text-sm overflow-y-auto scroll-bottom custom-scrollbar">
+              <div className="h-[80vh] text-sm overflow-y-auto scroll-bottom custom-scrollbar">
                 <div className="mx-auto lg:gap-6 md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] ">
                   {chatBoxList.map((chat, i) => {
                     return (
@@ -202,8 +200,8 @@ export const ChatBoxLayout = () => {
             )}
           </div>
 
-          <div className="w-full my-4">
-            <div className="md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] mx-auto py-4 px-4 lg:px-0">
+          <div className="w-full my-4 h-16">
+            <div className="md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] mx-auto lg:px-0">
               <div>
                 <Label className="sr-only">Your message</Label>
                 <div className="flex items-center px-2 py-3 rounded-lg bg-gray-50 dark:bg-gray-700 lg:mx-3">
