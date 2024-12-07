@@ -157,25 +157,33 @@ export function AppSidebar() {
   };
   return (
     <>
-      <Sidebar className={cn('box-border	', 'pt-[24px]', 'pb-[12px]', 'bg-[#13151C]', 'h-[100%]')}>
+      <Sidebar className={cn('box-border	', 'bg-[#13151C]', 'h-[100%]')}>
+        <div className="flex flex-col px-4 pt-4">
+          <div className="flex flex-row justify-between">
+            <div className="text-sm flex items-center justify-end mt-2">
+              <button
+                id="back-button"
+                className="text-gray-400 py-2 hover:text-gray-300 flex items-center"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 mr-1"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                <span className={cn('underline')}>Dashboard</span>
+              </button>
+            </div>
+          </div>
+        </div>
         <SidebarContent className={cn('pl-[4px]', 'h-[100%]')}>
           <SidebarGroup className={cn('h-[100%]')}>
-            <div
-              className={cn(
-                'flex',
-                'justify-items-center',
-                'gap-1',
-                'text-gray-400',
-                'text-sm',
-                'hover:text-gray-300',
-                'font-semibold',
-                'mb-[8px]'
-              )}
-            >
-              <ArrowLeft className={cn('h-[20px]')} />
-              <span className={cn('underline')}>Dashboard</span>
-            </div>
-
             <SidebarGroupContent className={cn('flex', 'flex-col', 'justify-between', 'h-[100%]')}>
               <div className={cn('overflow-auto', 'h-[73vh]')}>
                 {_sessionListMock.map((sessionItem: SessionList, i) => {
@@ -188,37 +196,37 @@ export function AppSidebar() {
                   );
                 })}
               </div>
-              <div className={cn('h-[164px]')}>
-                <Button className="w-full text-base text-white px-4 py-2 rounded-md bg-[#F68D24] hover:opacity-80 hover:bg-[#F68D24] relative">
-                  Start new session
-                </Button>
-
-                <Button
-                  className="w-full text-base text-white px-4 py-2 rounded-md hover:opacity-80 decline-btn mt-4 border"
-                  onClick={privacyKeyDialog.onTrue}
-                >
-                  New Privacy Key
-                </Button>
-                <div className="mt-4">
-                  <Select>
-                    <SelectTrigger className="w-full text-base text-white px-4 py-6 rounded-md hover:opacity-80 decline-btn bg-gray-700 border-transparent">
-                      <SelectValue placeholder="Light" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {selectKeys.map((key) => {
-                        return (
-                          <SelectItem key={key} value="key">
-                            {key}
-                          </SelectItem>
-                        );
-                      })}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
+        <div className={cn('p-4', 'flex', 'flex-col', 'justify-between')}>
+          <Button className="h-[40px] w-full text-base text-white px-4 py-2 rounded-md bg-[#F68D24] hover:opacity-80 hover:bg-[#F68D24] relative">
+            Start new session
+          </Button>
+
+          <Button
+            className="w-full px-4 py-2 rounded-md hover:opacity-80 decline-btn  h-[42px]"
+            onClick={privacyKeyDialog.onTrue}
+          >
+            New Privacy Key
+          </Button>
+          <div>
+            <Select>
+              <SelectTrigger className="w-full text-base text-white px-4 py-6 rounded-md hover:opacity-80 decline-btn bg-gray-700 border-transparent">
+                <SelectValue placeholder="Light" />
+              </SelectTrigger>
+              <SelectContent>
+                {selectKeys.map((key) => {
+                  return (
+                    <SelectItem key={key} value="key">
+                      {key}
+                    </SelectItem>
+                  );
+                })}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
       </Sidebar>
       <DeleteChatDialog
         open={moreActionDetail?.type === 'Delete'}
