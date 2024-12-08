@@ -29,7 +29,7 @@ export const ChatBox: FC<ChatBoxProps> = ({
     <div>
       <div
         className={cn(
-          'relative flex flex-col p-4 rounded-lg m-4',
+          'relative flex flex-col p-4 rounded-lg m-4 first:mt-0',
           isResponse ? 'bg-[#1C1D24]' : 'bg-slate-800'
         )}
       >
