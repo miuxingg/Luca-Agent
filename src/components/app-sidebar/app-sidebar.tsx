@@ -16,7 +16,15 @@ import { Button } from '../ui/button';
 import { useBoolean } from '@/hooks/use-boolean';
 import { _sessionListMock, CATEGORIES } from '@/app/constants/luca-constants';
 import { SessionItemType, SessionList } from '@/app/models/ui-model';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select';
 import { FilePenLine, KeyRound, ThumbsUp } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
 
@@ -96,23 +104,26 @@ export function AppSidebar() {
           </div>
         </div>
         <div className="px-4">
-          <Select defaultValue={CATEGORIES?.[0].value}>
-            <SelectTrigger className="w-full h-[48px] text-base text-white rounded-md hover:opacity-80 decline-btn bg-gray-700 !border-0">
-              <SelectValue className="text-white bg-white" />
+          <Select>
+            <SelectTrigger className="w-full h-[48px] text-base text-white">
+              <SelectValue placeholder="Select a persona" />
             </SelectTrigger>
-            <SelectContent className="border-0 bg-white text-black border-gray-300">
-              {CATEGORIES.map((obj) => {
-                return (
-                  <SelectItem
-                    key={obj.value}
-                    value={obj.value}
-                    title={obj.title}
-                    className="truncate"
-                  >
-                    {obj.name}
-                  </SelectItem>
-                );
-              })}
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel className='text-white'>Persona</SelectLabel>
+                {CATEGORIES.map((obj) => {
+                  return (
+                    <SelectItem
+                      key={obj.value}
+                      value={obj.value}
+                      title={obj.title}
+                      className="truncate"
+                    >
+                      {obj.name}
+                    </SelectItem>
+                  );
+                })}
+              </SelectGroup>
             </SelectContent>
           </Select>
         </div>
