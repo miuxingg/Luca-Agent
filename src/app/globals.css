@@ -117,6 +117,10 @@ html {
   overflow-x: hidden;
 }
 
+.overwrite-body-css {
+  overflow: hidden !important;
+}
+
 .bg-primary-color {
   background-color: #f68d24;
 }

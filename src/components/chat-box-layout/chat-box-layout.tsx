@@ -45,24 +45,25 @@ clearer understanding of a company's financial integrity.`,
   {
     id: '4',
     isResponse: false,
-    avatarUri: '/luca.svg',
-    avatarFallback: 'L',
-    content: `Welcome! I'm thrilled you're here. I am Luca, an AI assistant developed by
-Transparently.AI, and I specialize in analyzing accounting manipulation risk for
-publicly listed companies. I can help you uncover potential red flags and gain a
-clearer understanding of a company's financial integrity.`,
+    avatarUri: '/',
+    avatarFallback: 'Y',
+    content: `What is Lorem Ipsum?
+    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+      when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
+      It has survived not only five centuries, but also the leap into electronic typesetting, 
+      remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
+      Lorem Ipsum passages, and more recently with desktop publishing
+    software like Aldus PageMaker including versions of Lorem Ipsum.`,
     reaction: undefined,
   },
 
   {
     id: '6',
-    isResponse: false,
+    isResponse: true,
     avatarUri: '/luca.svg',
     avatarFallback: 'L',
-    content: `Welcome! I'm thrilled you're here. I am Luca, an AI assistant developed by
-Transparently.AI, and I specialize in analyzing accounting manipulation risk for
-publicly listed companies. I can help you uncover potential red flags and gain a
-clearer understanding of a company's financial integrity.`,
+    content: `What exactly your question herer ?`,
     reaction: undefined,
   },
 
@@ -70,11 +71,14 @@ clearer understanding of a company's financial integrity.`,
     id: '7',
     isResponse: false,
     avatarUri: '/luca.svg',
-    avatarFallback: 'L',
-    content: `Welcome! I'm thrilled you're here. I am Luca, an AI assistant developed by
-Transparently.AI, and I specialize in analyzing accounting manipulation risk for
-publicly listed companies. I can help you uncover potential red flags and gain a
-clearer understanding of a company's financial integrity.`,
+    avatarFallback: 'Y',
+    content: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+      when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
+      It has survived not only five centuries, but also the leap into electronic typesetting, 
+      remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
+      Lorem Ipsum passages, and more recently with desktop publishing
+    software like Aldus PageMaker including versions of Lorem Ipsum.`,
     reaction: undefined,
   },
   {
@@ -104,6 +108,14 @@ export const ChatBoxLayout = () => {
       bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   }, [chatBoxList]);
+  useEffect(() => {
+    if (chatBoxExpanded) {
+      document.body.classList.add('overwrite-body-css');
+    } else {
+      document.body.classList.remove('overwrite-body-css');
+    }
+  }, [chatBoxExpanded]);
+
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault();
@@ -213,7 +225,7 @@ export const ChatBoxLayout = () => {
               </div>
             </nav>
 
-            <div className={cn(chatBoxExpanded && 'flex')}>
+            <div className={cn(chatBoxExpanded && 'flex gap-x-4')}>
               <div
                 className={cn('h-full', 'justify-center')}
                 style={chatBoxExpanded ? { flex: 1 } : {}}
