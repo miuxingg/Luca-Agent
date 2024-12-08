@@ -14,6 +14,10 @@ export type ChatBoxProps = {
   isResponse?: boolean;
   isLoading?: boolean;
   isExpanded?: boolean;
+  engageIndependentLoadding?: boolean;
+  engageIndependentBorder?: boolean;
+  engageIndependentReasoning?: string;
+  engageIndependentAudit?: string;
   reaction?: 'like' | 'dislike';
   avatarUri?: string;
   avatarFallback?: string;
@@ -21,4 +25,5 @@ export type ChatBoxProps = {
   onLikeClick?: () => void;
   onDisLikeClick?: () => void;
   onExpandClick?: () => void;
+  onEngageIndependentClick?: () => void;
 };

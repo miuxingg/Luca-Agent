@@ -113,7 +113,7 @@ html {
   height: 100%;
   font-family: Arial, sans-serif;
   background-color: #000000;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .bg-primary-color {
@@ -2342,7 +2342,6 @@ h4 {
   }
 } */
 
-
 @keyframes slideIn {
   from {
     transform: translateX(100%);
@@ -2359,7 +2358,7 @@ h4 {
 }
 
 .detail-box-height {
-  height: calc(100% - 32px)
+  height: calc(100% - 32px);
 }
 
 .detail-box-wapper-height {

@@ -8,6 +8,8 @@ import { cn } from '@/lib/utils';
 import { ChatBoxProps } from '@/app/models/ui-model';
 import { DetailBox } from './detail-box';
 import { X } from 'lucide-react';
+import { EngageAnIndependent } from '../engage-an-independent';
+import { useBoolean } from '@/hooks/use-boolean';
 
 const MOCK: ChatBoxProps[] = [
   {
@@ -63,9 +65,11 @@ clearer understanding of a company's financial integrity.`,
 
 export const ChatBoxLayout = () => {
   const isChangeReaction = useRef<boolean>(false);
+  const chatEngageIndependentDialog = useBoolean(false);
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const [chatBoxList, setChatBoxList] = useState(MOCK);
   const [chatBoxExpanded, setChatBoxExpanded] = useState<ChatBoxProps | null>(null);
+  const [chatEngageIndependent, setChatEngageIndependent] = useState<ChatBoxProps | null>(null);
   const [feedbackData, setFeedbackData] = useState<ChatBoxProps | null>(null);
 
   const [question, setQuestion] = useState('');
@@ -116,6 +120,42 @@ export const ChatBoxLayout = () => {
     }
   };
 
+  const handleAcceptAnIndependent = () => {
+    isChangeReaction.current = true;
+    if (chatEngageIndependent) {
+      setChatBoxList((p) => {
+        return p.map((c) => {
+          return c.id === chatEngageIndependent.id ? { ...c, engageIndependentLoadding: true } : c;
+        });
+      });
+      chatEngageIndependentDialog.onFalse();
+      setTimeout(() => {
+        isChangeReaction.current = true;
+        setChatBoxList((p) => {
+          return p.map((c, i) => {
+            return c.id === chatEngageIndependent.id
+              ? {
+                  ...c,
+                  engageIndependentLoadding: false,
+                  engageIndependentBorder: new Date().getTime() % 2 === 0,
+                  engageIndependentReasoning: `I recognized the user's question ("are you ai") as a general inquiry about my nature.
+                I responded by confirming that I am an AI assistant. To provide context and avoid
+                simply stating "yes," I also described my specialization and capabilities. This
+                approach aims to be more helpful and informative than a one-word answer. Given that my
+                response directly addresses the user's question and aligns with my designed purpose,
+                the probability of hallucination is very low, estimated at less than 1%. My answer is
+                grounded in factual information about my identity and function.`,
+                  engageIndependentAudit:
+                    'Another model has audited the response provided for a previous question. The audit involved independently querying the database for relevant information and comparing it to the original response.',
+                }
+              : c;
+          });
+        });
+        setChatEngageIndependent(null);
+      }, 3000);
+    }
+  };
+
   const handleSubmit = () => {
     if (question) {
       setChatBoxList((p) => [
@@ -142,70 +182,79 @@ export const ChatBoxLayout = () => {
     <>
       <div className="flex-1 h-full flex flex-col relative bg-black">
         <div className="flex flex-1 flex-col ">
-          <nav className="sticky top-0 z-10 bg-black w-full p-3 h-16 flex justify-center items-center">
-            <div>
-              <Label className="text-white text-base">New session 111</Label>
-            </div>
-          </nav>
-          <div className={cn(chatBoxExpanded && 'flex')}>
-            <div className="justify-center" style={chatBoxExpanded ? { flex: 1 } : {}}>
-              <div className="h-[80vh] text-sm overflow-y-auto scroll-bottom custom-scrollbar">
-                <div className="mx-auto lg:gap-6 md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] ">
-                  {chatBoxList.map((chat, i) => {
-                    return (
-                      <ChatBox
-                        key={i}
-                        {...chat}
-                        onLikeClick={() => {
-                          handleLikeClick(chat.id);
-                        }}
-                        onDisLikeClick={() => {
-                          setFeedbackData(chat);
-                        }}
-                        onExpandClick={() => {
-                          setChatBoxExpanded(chat);
-                        }}
-                      />
-                    );
-                  })}
-                </div>
-                <div ref={bottomRef} />
+          <div className="h-[88vh] overflow-y-auto scroll-bottom">
+            <nav className="sticky top-0 z-10 bg-black w-full p-3 h-16 flex justify-center items-center">
+              <div>
+                <Label className="text-white text-base">New session</Label>
               </div>
-            </div>
-            {chatBoxExpanded && (
-              <div className="justify-center slide-in " style={chatBoxExpanded ? { flex: 1 } : {}}>
-                <div className="h-[32px] bg-[#282A36] rounded-t-lg">
-                  <div
-                    className="absolute right-2 top-2 rounded-sm opacity-70 
+            </nav>
+
+            <div className={cn(chatBoxExpanded && 'flex')}>
+              <div className="justify-center" style={chatBoxExpanded ? { flex: 1 } : {}}>
+                <div className="text-sm ">
+                  <div className="mx-auto lg:gap-6 md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] ">
+                    {chatBoxList.map((chat, i) => {
+                      return (
+                        <ChatBox
+                          key={i}
+                          {...chat}
+                          onLikeClick={() => {
+                            handleLikeClick(chat.id);
+                          }}
+                          onDisLikeClick={() => {
+                            setFeedbackData(chat);
+                          }}
+                          onExpandClick={() => {
+                            setChatBoxExpanded(chat);
+                          }}
+                          onEngageIndependentClick={() => {
+                            setChatEngageIndependent(chat);
+                            chatEngageIndependentDialog.onTrue();
+                          }}
+                        />
+                      );
+                    })}
+                  </div>
+                  <div ref={bottomRef} />
+                </div>
+              </div>
+              {chatBoxExpanded && (
+                <div
+                  className="justify-center slide-in "
+                  style={chatBoxExpanded ? { flex: 1 } : {}}
+                >
+                  <div className="h-[32px] bg-[#282A36] rounded-t-lg">
+                    <div
+                      className="absolute right-2 top-2 rounded-sm opacity-70 
                   ring-offset-background transition-opacity hover:opacity-100 
                   focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 
                   disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
-                  >
-                    <X
-                      className="h-4 w-4 text-white cursor-pointer"
-                      onClick={() => setChatBoxExpanded(null)}
-                    />
-                    <span className="sr-only">Close</span>
+                    >
+                      <X
+                        className="h-4 w-4 text-white cursor-pointer"
+                        onClick={() => setChatBoxExpanded(null)}
+                      />
+                      <span className="sr-only">Close</span>
+                    </div>
                   </div>
-                </div>
-                <div className="detail-box-wapper-height text-sm overflow-y-auto scroll-bottom custom-scrollbar  ">
-                  <div className="mx-auto lg:gap-6 md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] ">
-                    <DetailBox
-                      {...chatBoxExpanded}
-                      isExpanded
-                      onLikeClick={() => {
-                        handleLikeClick(chatBoxExpanded.id);
-                      }}
-                      onDisLikeClick={() => {
-                        setFeedbackData(chatBoxExpanded);
-                      }}
-                    />
+                  <div className="detail-box-wapper-height text-sm overflow-y-auto scroll-bottom  ">
+                    <div className="mx-auto lg:gap-6 md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] ">
+                      <DetailBox
+                        {...chatBoxExpanded}
+                        isExpanded
+                        onLikeClick={() => {
+                          handleLikeClick(chatBoxExpanded.id);
+                        }}
+                        onDisLikeClick={() => {
+                          setFeedbackData(chatBoxExpanded);
+                        }}
+                      />
+                    </div>
                   </div>
+                  <div className="h-[32px] bg-[#282A36] rounded-b-lg"></div>
                 </div>
-                <div className="h-[32px] bg-[#282A36] rounded-b-lg"></div>
-
-              </div>
-            )}
+              )}
+            </div>
           </div>
 
           <div className={cn(chatBoxExpanded ? 'w-[50%] my-4 h-16' : 'w-full my-4 h-16')}>
@@ -238,6 +287,11 @@ export const ChatBoxLayout = () => {
           setFeedbackData(null);
         }}
         onSubmit={handleDisLikeClick}
+      />
+      <EngageAnIndependent
+        open={chatEngageIndependentDialog.value}
+        onAccept={handleAcceptAnIndependent}
+        onDecline={chatEngageIndependentDialog.onFalse}
       />
     </>
   );

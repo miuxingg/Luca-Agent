@@ -1,17 +1,9 @@
-import { Expand, Minimize, ThumbsDown, ThumbsUp } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { FC } from 'react';
 import { cn } from '@/lib/utils';
-import { Button } from '../ui/button';
 import { Skeleton } from '../ui/skeleton';
 import { ChatBoxProps as DetailBoxProps } from '@/app/models/ui-model';
-import { CodeButton } from '../code-button';
 
-export const DetailBox: FC<DetailBoxProps> = ({
-  isResponse,
-  isLoading,
-  content,
-}) => {
+export const DetailBox: FC<DetailBoxProps> = ({ isResponse, isLoading, content }) => {
   return (
     <div className={cn('relative flex flex-col p-4', isResponse && 'bg-[#1C1D24]')}>
       <div className="flex gap-3">
