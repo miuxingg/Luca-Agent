@@ -53,6 +53,30 @@ publicly listed companies. I can help you uncover potential red flags and gain a
 clearer understanding of a company's financial integrity.`,
     reaction: undefined,
   },
+
+  {
+    id: '6',
+    isResponse: false,
+    avatarUri: '/luca.svg',
+    avatarFallback: 'L',
+    content: `Welcome! I'm thrilled you're here. I am Luca, an AI assistant developed by
+Transparently.AI, and I specialize in analyzing accounting manipulation risk for
+publicly listed companies. I can help you uncover potential red flags and gain a
+clearer understanding of a company's financial integrity.`,
+    reaction: undefined,
+  },
+
+  {
+    id: '7',
+    isResponse: false,
+    avatarUri: '/luca.svg',
+    avatarFallback: 'L',
+    content: `Welcome! I'm thrilled you're here. I am Luca, an AI assistant developed by
+Transparently.AI, and I specialize in analyzing accounting manipulation risk for
+publicly listed companies. I can help you uncover potential red flags and gain a
+clearer understanding of a company's financial integrity.`,
+    reaction: undefined,
+  },
   {
     id: '5',
     isResponse: true,
@@ -182,7 +206,7 @@ export const ChatBoxLayout = () => {
     <>
       <div className="flex-1 h-full flex flex-col relative bg-black">
         <div className="flex flex-1 flex-col ">
-          <div className="h-[88vh] overflow-y-auto scroll-bottom">
+          <div className={cn(!chatBoxExpanded && 'h-[88vh] overflow-y-auto scroll-bottom')}>
             <nav className="sticky top-0 z-10 bg-black w-full p-3 h-16 flex justify-center items-center">
               <div>
                 <Label className="text-white text-base">New session</Label>
@@ -190,9 +214,17 @@ export const ChatBoxLayout = () => {
             </nav>
 
             <div className={cn(chatBoxExpanded && 'flex')}>
-              <div className="justify-center" style={chatBoxExpanded ? { flex: 1 } : {}}>
-                <div className="text-sm ">
-                  <div className="mx-auto lg:gap-6 md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] ">
+              <div
+                className={cn('h-full', 'justify-center')}
+                style={chatBoxExpanded ? { flex: 1 } : {}}
+              >
+                <div className={cn('text-sm')}>
+                  <div
+                    className={cn(
+                      'mx-auto lg:gap-6 md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] ',
+                      chatBoxExpanded && 'h-[81vh] !overflow-y-auto !scroll-bottom'
+                    )}
+                  >
                     {chatBoxList.map((chat, i) => {
                       return (
                         <ChatBox
@@ -237,7 +269,12 @@ export const ChatBoxLayout = () => {
                       <span className="sr-only">Close</span>
                     </div>
                   </div>
-                  <div className="detail-box-wapper-height text-sm overflow-y-auto scroll-bottom  ">
+                  <div
+                    className={cn(
+                      'detail-box-wapper-height text-sm ',
+                      chatBoxExpanded && '!overflow-y-auto !scroll-bottom'
+                    )}
+                  >
                     <div className="mx-auto lg:gap-6 md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] ">
                       <DetailBox
                         {...chatBoxExpanded}
