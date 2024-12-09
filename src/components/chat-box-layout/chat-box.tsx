@@ -7,6 +7,7 @@ import { Skeleton } from '../ui/skeleton';
 import { ChatBoxProps } from '@/app/models/ui-model';
 import { CodeButton } from '../code-button';
 import { Label } from '../ui/label';
+import { ResponseSkeleton } from './chat-response-skeleton';
 
 export const ChatBox: FC<ChatBoxProps> = ({
   isResponse,
@@ -42,9 +43,12 @@ export const ChatBox: FC<ChatBoxProps> = ({
           </div>
           <div className="flex flex-col text-white flex-1 overflow-x-auto">
             {isLoading ? (
-              <Skeleton className="bg-transparent">sending request...</Skeleton>
+              <ResponseSkeleton />
             ) : (
               <>
+                {/* TODO: handling markdown... */}
+                {/* TODO: handling stream... */}
+
                 {typeof content === 'string' ? <p>{content}</p> : content}
 
                 {typeof content === 'string' ? null : (
@@ -127,12 +131,7 @@ export const ChatBox: FC<ChatBoxProps> = ({
           </div>
         </div>
         {isResponse && (engageIndependentReasoning || engageIndependentAudit) && (
-          <div
-            className={cn(
-              ' text-white',
-              engageIndependentBorder && 'mt-4 p-5 rounded-[10px] border border-[#00ff00b4]'
-            )}
-          >
+          <div className={cn(' text-white', engageIndependentBorder && 'pass-audit')}>
             {engageIndependentReasoning && (
               <>
                 <h1 className="text-white text-lg font-bold">Reasoning</h1>
