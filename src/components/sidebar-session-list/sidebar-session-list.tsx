@@ -6,6 +6,7 @@ import { MoreAction, MoreActionType } from '.';
 import { useBoolean } from '@/hooks/use-boolean';
 import { SessionItemType, SessionList } from '@/app/models/ui-model';
 import { EllipsisVertical } from 'lucide-react';
+import React from 'react';
 // Menu items.
 
 type SessionItemProp = {
@@ -17,6 +18,13 @@ type SessionItemProp = {
 };
 const SessionItem: FC<SessionItemProp> = ({ title, time, isSelected, onMoreClick, onClick }) => {
   const showMoreAction = useBoolean();
+  const [open, setOpen] = useState(false);
+  React.useEffect(() => {
+    if (open === false) {
+      showMoreAction.onFalse();
+    }
+  }, [open]);
+
   return (
     <>
       <SidebarMenuItem
@@ -25,13 +33,14 @@ const SessionItem: FC<SessionItemProp> = ({ title, time, isSelected, onMoreClick
           showMoreAction.onTrue();
         }}
         onMouseLeave={() => {
-          showMoreAction.onFalse();
+          open === false && showMoreAction.onFalse();
         }}
       >
         <div
           className={cn(
             'flex justify-between items-center cursor-pointer hover:bg-[#2A2A2B] bg-transparent p-2 text-sm text-white rounded duration-200',
-            isSelected && 'bg-[#2A2A2B]'
+            isSelected && 'bg-[#2A2A2B]',
+            open && 'bg-[#2A2A2B]'
           )}
         >
           <div className={'flex flex-col flex-1'} onClick={onClick}>
@@ -39,7 +48,13 @@ const SessionItem: FC<SessionItemProp> = ({ title, time, isSelected, onMoreClick
             <p className="text-xs text-gray-400">{time}</p>
           </div>
           <div className={cn('w-5')}>
-            {showMoreAction.value && <MoreAction onClick={onMoreClick} />}
+            {showMoreAction.value && (
+              <MoreAction
+                onClick={onMoreClick}
+                isOpen={open}
+                onSetOpen={(stt: boolean) => setOpen(stt)}
+              />
+            )}
           </div>
         </div>
       </SidebarMenuItem>

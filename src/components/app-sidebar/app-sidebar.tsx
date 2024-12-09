@@ -105,7 +105,7 @@ export function AppSidebar() {
         </div>
         <div className="px-4">
           <Select>
-            <SelectTrigger className="w-full h-[48px] text-base text-white">
+            <SelectTrigger className="w-full h-[48px] text-sm	 text-white">
               <SelectValue placeholder="Select a persona" />
             </SelectTrigger>
             <SelectContent>
