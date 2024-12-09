@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import { SidebarGroupLabel, SidebarMenu, SidebarMenuItem } from '../ui/sidebar';
 import { FC, useState } from 'react';
 import { MoreAction, MoreActionType } from '.';
-import { SessionItemType, SessionList } from '../app-sidebar';
+import { SessionItemType, SessionList } from '@/app/models/ui-model';
 // Menu items.
 
 type SessionItemProp = {
