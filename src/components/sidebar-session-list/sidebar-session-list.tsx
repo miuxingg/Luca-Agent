@@ -3,7 +3,9 @@ import { cn } from '@/lib/utils';
 import { SidebarGroupLabel, SidebarMenu, SidebarMenuItem } from '../ui/sidebar';
 import { FC, useState } from 'react';
 import { MoreAction, MoreActionType } from '.';
+import { useBoolean } from '@/hooks/use-boolean';
 import { SessionItemType, SessionList } from '@/app/models/ui-model';
+import { EllipsisVertical } from 'lucide-react';
 // Menu items.
 
 type SessionItemProp = {
@@ -14,18 +16,16 @@ type SessionItemProp = {
   onClick?: () => void;
 };
 const SessionItem: FC<SessionItemProp> = ({ title, time, isSelected, onMoreClick, onClick }) => {
-  const [hover, setHover] = useState(false);
-
+  const showMoreAction = useBoolean();
   return (
     <>
       <SidebarMenuItem
         className={'hover: bg-transparent'}
-        onClick={onClick}
         onMouseEnter={() => {
-          setHover(true);
+          showMoreAction.onTrue();
         }}
         onMouseLeave={() => {
-          setHover(false);
+          showMoreAction.onFalse();
         }}
       >
         <div
@@ -34,15 +34,13 @@ const SessionItem: FC<SessionItemProp> = ({ title, time, isSelected, onMoreClick
             isSelected && 'bg-[#2A2A2B]'
           )}
         >
-          <div className={'flex flex-col '}>
+          <div className={'flex flex-col flex-1'} onClick={onClick}>
             <p>{title}</p>
             <p className="text-xs text-gray-400">{time}</p>
           </div>
-          {hover && (
-            <div>
-              <MoreAction onClick={onMoreClick} />
-            </div>
-          )}
+          <div className={cn('w-5')}>
+            {showMoreAction.value && <MoreAction onClick={onMoreClick} />}
+          </div>
         </div>
       </SidebarMenuItem>
     </>
